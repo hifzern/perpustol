@@ -30,11 +30,11 @@ public class BookModel {
 
     @Override
     public String toString() {
-        return title +
-                ", author: '" + author + '\'' +
-                ", Year: " + Year +
-                ", id: " + id +
-                '}';
+        return title + "\n" +
+                "Author: '" + author + "\n" +
+                "Year: " + Year + "\n" +
+                "ID: " + id + "\n"
+                ;
     }
 
     public int getStatus() {
