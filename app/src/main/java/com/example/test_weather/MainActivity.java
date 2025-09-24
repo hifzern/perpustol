@@ -1,6 +1,7 @@
 package com.example.test_weather;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -8,8 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
-
+import android.widget.TextView;
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -19,16 +21,44 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btn_getBookByID, btn_getBooks,  btn_getwaetherByCityName, btn_Tambah, btn_Edit, btn_Hapus;
-    EditText et_dataInput, et_title, et_author, et_year, et_ID;
-    ListView lv_waetherReaports;
+    Button btn_getBookByID, btn_getBooks, btn_getwaetherByCityName, btn_Tambah, btn_Edit, btn_Hapus;
+    EditText et_dataInput, et_title, et_author, et_year;
+    TextView et_ID;
 
+    private void showBookPopup(List<BookModel> bookList) {
+        // Inflate layout test.xml
+        LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
+        View popupView = inflater.inflate(R.layout.test, null);
+        ListView listView = popupView.findViewById(R.id.list_books);
+        // Adapter untuk list buku
+        ArrayAdapter<BookModel> adapter = new ArrayAdapter<>(
+                MainActivity.this,
+                android.R.layout.simple_list_item_1,
+                bookList
+        );
+        listView.setAdapter(adapter);
+        // Buat dialog
+        AlertDialog dialog = new AlertDialog.Builder(MainActivity.this)
+                .setView(popupView)
+                .setCancelable(true)
+                .create();
+        // Ketika item dipilih
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            BookModel selectedBook = bookList.get(position);
+            et_ID.setText(String.valueOf(selectedBook.getId()));
+            et_title.setText(selectedBook.getTitle());
+            et_author.setText(selectedBook.getAuthor());
+            et_year.setText(String.valueOf(selectedBook.getYear()));
+            dialog.dismiss();
+        });
+
+        dialog.show();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -47,49 +77,15 @@ public class MainActivity extends AppCompatActivity {
         et_dataInput = findViewById(R.id.et_Title_ID);
         et_title = findViewById(R.id.et_title);
         et_year = findViewById(R.id.et_year);
-        et_ID = findViewById(R.id.et_ID);
+        et_ID= findViewById(R.id.et_ID);
         et_author = findViewById(R.id.et_author);
-
-        lv_waetherReaports = findViewById(R.id.lv_waetherReaports);
-
         BookDataService bookDataService = new BookDataService(MainActivity.this);
-
-
         // Assuming 'lv_books' is your ListView variable
-        lv_waetherReaports.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-
-                // 1. Get the specific 'BookModel' object that was clicked from the adapter.
-                BookModel selectedBook = (BookModel) adapterView.getItemAtPosition(position);
-
-                // 2. Check if the object is valid to avoid errors.
-                if (selectedBook != null) {
-
-                    // 3. Get the data from the 'selectedBook' object and set it into your EditTexts.
-
-                    // Set the ID (convert the integer to a String)
-                    et_ID.setText(String.valueOf(selectedBook.getId()));
-
-                    // Set the Title
-                    et_title.setText(selectedBook.getTitle());
-
-                    // Set the Year (convert the integer to a String)
-                    et_year.setText(String.valueOf(selectedBook.getYear()));
-
-                    et_author.setText(String.valueOf(selectedBook.getAuthor()));
-
-                    // Set the main data input field. You can use the title or author here.
-                    // Tip: You could also use the author: et_dataInput.setText(selectedBook.getAuthor());
-                }
-            }
-        });
-
         //click Listener
         btn_getBookByID.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                String input = et_dataInput.getText().toString().trim();
                 bookDataService.getBookByID(et_dataInput.getText().toString(), new BookDataService.VolleyResponsListener() {
                     @Override
                     public void onError(String message) {
@@ -98,12 +94,11 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onRespone(List<BookModel> bookModel) {
-                        //put list
-//                        Toast.makeText(MainActivity.this, "title: " + bookTitle, Toast.LENGTH_SHORT).show();
-                        ArrayAdapter arrayAdapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, bookModel);
-                        lv_waetherReaports.setAdapter(arrayAdapter);
-                    }
-                });
+                        if (bookModel != null && !bookModel.isEmpty()) {
+                            showBookPopup(bookModel);
+                        }
+                        }
+                    });
             }
         });
 
@@ -118,12 +113,11 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onRespone(List<BookModel> bookModel) {
-                        //put list
-                        ArrayAdapter arrayAdapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, bookModel);
-                        lv_waetherReaports.setAdapter(arrayAdapter);
+                        if (bookModel != null && !bookModel.isEmpty()) {
+                            showBookPopup(bookModel);
+                        }
                     }
                 });
-
             }
         });
 
@@ -138,11 +132,10 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onRespone(List<BookModel> bookModel) {
-                        //put list
-//                        Toast.makeText(MainActivity.this, "title: " + bookTitle, Toast.LENGTH_SHORT).show();
-                        ArrayAdapter arrayAdapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, bookModel);
-                        lv_waetherReaports.setAdapter(arrayAdapter);
-                    }
+                        if (bookModel != null && !bookModel.isEmpty()) {
+                            showBookPopup(bookModel);
+                        }
+                        }
                 });
             }
         });

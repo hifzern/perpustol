@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">test_weather</string>
+    <string name="hint_enter_id_or_title">Enter ID / Title</string>
+    <string name="btn_by_id">By ID</string>
+    <string name="btn_all_books">All Books</string>
+    <string name="btn_by_title">By Title</string>
+    <string name="hint_title">Title</string>
+    <string name="hint_author">Author</string>
+    <string name="hint_year">Year</string>
+    <string name="hint_id">ID</string>
+    <string name="btn_add">Add</string>
+    <string name="btn_edit">Edit</string>
+    <string name="btn_delete">Delete</string>
 </resources>

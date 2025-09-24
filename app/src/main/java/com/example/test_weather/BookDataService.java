@@ -3,6 +3,8 @@ package com.example.test_weather;
 import android.content.Context;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -41,7 +43,13 @@ public class BookDataService {
 
         void onRespone(List<BookModel> bookModel);
     }
-
+    private void showMessagePopup(String message) {
+        AlertDialog dialog = new AlertDialog.Builder(context)
+                .setMessage(message)
+                .setPositiveButton("OK", (d, which) -> d.dismiss())
+                .create();
+        dialog.show();
+    }
     public void getBookByID(String bookID, VolleyResponsListener volleyResponsListener) {
         List<BookModel> BookList = new ArrayList<>();
         String url_id = URL_ID + bookID;
@@ -70,7 +78,7 @@ public class BookDataService {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                showMessagePopup("ID tidak ditemukan \uD83D\uDC80");
             }
         });
 
@@ -105,12 +113,8 @@ public class BookDataService {
                         one_book.setAuthor(Book_i.getString("author"));
                         one_book.setYear(Book_i.getInt("year"));
                         BookList.add(one_book);
-
-
                     }
                     booksRespons.onRespone(BookList);
-
-
 
                 } catch (JSONException e) {
                     Toast.makeText(context, "Test_22_Error", Toast.LENGTH_SHORT).show();
@@ -165,7 +169,7 @@ public class BookDataService {
                     });
                 } else {
                     // If no book with the title is found, return an empty list or an error.
-                    booksRespons.onRespone(new ArrayList<>());
+                    showMessagePopup("Judul tidak ditemukan \uD83D\uDC80");
                 }
             }
         });
@@ -303,9 +307,4 @@ public class BookDataService {
         // 6. Add the request to the queue to execute it.
         MySingleton.getInstance(context).addToRequestQueue(putRequest);
     }
-
-
-
-
-
 }
