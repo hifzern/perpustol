@@ -67,6 +67,9 @@ public class BookDataService {
                         one_book.setTitle(book_data.getString("title"));
                         one_book.setAuthor(book_data.getString("author"));
                         one_book.setYear(book_data.getInt("year"));
+                    one_book.setCover_url(book_data.getString("cover_url"));
+                    one_book.setDescription(book_data.getString("description"));
+                    one_book.setGenre(book_data.getString("genre"));
                         BookList.add(one_book);
 
                     volleyResponsListener.onRespone(BookList);
@@ -112,6 +115,9 @@ public class BookDataService {
                         one_book.setTitle(Book_i.getString("title"));
                         one_book.setAuthor(Book_i.getString("author"));
                         one_book.setYear(Book_i.getInt("year"));
+                        one_book.setCover_url(Book_i.getString("cover_url"));
+                        one_book.setDescription(Book_i.getString("description"));
+                        one_book.setGenre(Book_i.getString("genre"));
                         BookList.add(one_book);
                     }
                     booksRespons.onRespone(BookList);
@@ -216,13 +222,16 @@ public class BookDataService {
         void onError(String message);
     }
 
-    public void addBook(String title, String author, int year, final AddBookListener listener) {
+    public void addBook(String title, String author, int year, String genre, String description, String cover_url, final AddBookListener listener) {
         // Create a JSON object with the book data to be sent in the request body.
         JSONObject requestBody = new JSONObject();
         try {
             requestBody.put("title", title);
             requestBody.put("author", author);
             requestBody.put("year", year);
+            requestBody.put("cover_url", cover_url);
+            requestBody.put("description", description);
+            requestBody.put("genre", genre);
         } catch (JSONException e) {
             e.printStackTrace();
             if (listener != null) {
@@ -263,7 +272,7 @@ public class BookDataService {
         void onError(String message);
     }
 
-    public void updateBook(String bookId, String title, String author, int year, final UpdateBookListener listener) {
+    public void updateBook(String bookId, String title, String author, int year, String genre, String description, String cover_url, final UpdateBookListener listener) {
         // 1. Construct the specific URL for the book ID.
         String url = URL_ID + bookId;
 
@@ -273,6 +282,9 @@ public class BookDataService {
             requestBody.put("title", title);
             requestBody.put("author", author);
             requestBody.put("year", year);
+            requestBody.put("cover_url", cover_url);
+            requestBody.put("description", description);
+            requestBody.put("genre", genre);
         } catch (JSONException e) {
             e.printStackTrace();
             if (listener != null) {

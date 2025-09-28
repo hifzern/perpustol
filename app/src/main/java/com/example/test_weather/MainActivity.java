@@ -22,7 +22,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     Button btn_getBookByID, btn_getBooks, btn_getwaetherByCityName, btn_Tambah, btn_Edit, btn_Hapus;
-    EditText et_dataInput, et_title, et_author, et_year;
+    EditText et_dataInput, et_title, et_author, et_year, et_cover_url, et_genre, et_description;
     TextView et_ID;
 
     private void showBookPopup(List<BookModel> bookList) {
@@ -49,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
             et_title.setText(selectedBook.getTitle());
             et_author.setText(selectedBook.getAuthor());
             et_year.setText(String.valueOf(selectedBook.getYear()));
+            et_cover_url.setText(String.valueOf(selectedBook.getCover_url()));
+            et_genre.setText(String.valueOf(selectedBook.getGenre()));
+            et_description.setText(String.valueOf(selectedBook.getDescription()));
             dialog.dismiss();
         });
 
@@ -79,6 +82,10 @@ public class MainActivity extends AppCompatActivity {
         et_year = findViewById(R.id.et_year);
         et_ID= findViewById(R.id.et_ID);
         et_author = findViewById(R.id.et_author);
+        et_description = findViewById(R.id.et_description);
+        et_genre = findViewById(R.id.et_genre);
+        et_cover_url = findViewById(R.id.et_cover_url);
+
         BookDataService bookDataService = new BookDataService(MainActivity.this);
         // Assuming 'lv_books' is your ListView variable
         //click Listener
@@ -163,8 +170,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String title = et_title.getText().toString();
                 String author = et_author.getText().toString();
+                String genre = et_genre.getText().toString();
+                String description = et_description.getText().toString();
+                String cover_url = et_cover_url.getText().toString();
                 int year = Integer.parseInt(et_year.getText().toString());
-                bookDataService.addBook(title, author, year, new BookDataService.AddBookListener() {
+                bookDataService.addBook(title, author, year, genre, description, cover_url, new BookDataService.AddBookListener() {
                     @Override
                     public void onComplete() {
                         Toast.makeText(MainActivity.this, "Add Successful", Toast.LENGTH_SHORT).show();
@@ -184,9 +194,12 @@ public class MainActivity extends AppCompatActivity {
                 String bookId = et_ID.getText().toString();
                 String title = et_title.getText().toString();
                 String author = et_author.getText().toString();
+                String genre = et_genre.getText().toString();
+                String description = et_description.getText().toString();
+                String cover_url = et_cover_url.getText().toString();
                 int year = Integer.parseInt(et_year.getText().toString()); // Remember to handle NumberFormatException
 
-                bookDataService.updateBook(bookId, title, author, year, new BookDataService.UpdateBookListener() {
+                bookDataService.updateBook(bookId, title, author, year, genre, description, cover_url, new BookDataService.UpdateBookListener() {
                     @Override
                     public void onComplete() {
 

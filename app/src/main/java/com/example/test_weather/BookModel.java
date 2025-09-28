@@ -8,6 +8,9 @@ public class BookModel {
     private String title;
     private String author;
     private int Year;
+    private String cover_url;
+    private String description;
+    private String genre;
 
     public BookModel(int status, String message, int id, String title, String author, int year) {
         this.status = status;
@@ -15,14 +18,20 @@ public class BookModel {
         this.id = id;
         this.title = title;
         this.author = author;
-        Year = year;
+        this.Year = year;
+        this.cover_url = cover_url;
+        this.description = description;
+        this.genre = genre;
     }
 
     public BookModel(int id, String title, String author, int year) {
         this.id = id;
         this.title = title;
         this.author = author;
-        Year = year;
+        this.Year = year;
+        this.cover_url = cover_url;
+        this.description = description;
+        this.genre = genre;
     }
 
     public BookModel() {
@@ -33,7 +42,10 @@ public class BookModel {
         return title + "\n" +
                 "Author: '" + author + "\n" +
                 "Year: " + Year + "\n" +
-                "ID: " + id + "\n"
+                "ID: " + id + "\n" +
+                "Genre: " + genre + "\n" +
+                "Description: " + description + "\n"+
+                "Cover_url: " + cover_url + "\n"
                 ;
     }
 
@@ -61,6 +73,18 @@ public class BookModel {
         return Year;
     }
 
+    public String getCover_url() {
+        return cover_url;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
     public void setStatus(int status) {
         this.status = status;
     }
@@ -83,6 +107,18 @@ public class BookModel {
 
     public void setYear(int year) {
         Year = year;
+    }
+
+    public void setCover_url(String cover_url) {
+        this.cover_url = cover_url;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
 }
 
