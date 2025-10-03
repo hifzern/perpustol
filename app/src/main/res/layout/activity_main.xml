@@ -73,6 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/btn_by_id"
+            android:textColor="@color/black"
             tools:layout_editor_absoluteX="28dp"
             tools:layout_editor_absoluteY="217dp" />
 
@@ -83,6 +84,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/btn_all_books"
+            android:textColor="@color/black"
             tools:layout_editor_absoluteX="154dp"
             tools:layout_editor_absoluteY="217dp" />
 
@@ -93,6 +95,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/btn_by_title"
+            android:textColor="@color/black"
             tools:layout_editor_absoluteX="281dp"
             tools:layout_editor_absoluteY="217dp" />
     </LinearLayout>
@@ -181,6 +184,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/btn_add"
+            android:textColor="@color/black"
             tools:layout_editor_absoluteX="28dp"
             tools:layout_editor_absoluteY="548dp" />
 
@@ -191,6 +195,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/btn_edit"
+            android:textColor="@color/black"
             tools:layout_editor_absoluteX="154dp"
             tools:layout_editor_absoluteY="548dp" />
 
@@ -201,6 +206,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/btn_delete"
+            android:textColor="@color/black"
             tools:layout_editor_absoluteX="281dp"
             tools:layout_editor_absoluteY="548dp" />
     </LinearLayout>
